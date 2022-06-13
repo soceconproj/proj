@@ -152,7 +152,7 @@ G.add_edges_from([("China", "United States"),("China", "Japan"),("China", "Germa
 ("France", "Germany"),("France", "United States"),("France", "Italy"),("Italy", "Germany"),("Italy", "France"),("Italy", "United States"),
 ("Italy", "Switzerland"),("Italy", "United Kingdom"),("United Kingdom", "Germany"),("United Kingdom", "France"),("United Kingdom", "United States"),
 ("Japan", "United States"),("Japan", "China"),("Switzerland", "United States"),("Switzerland", "China"),("Switzerland", "France"),("Switzerland", "Germany"),("Switzerland", "United Kingdom")])
-fig, ax = plt.subplots()
+fig_ex, ax = plt.subplots()
 pos = nx.kamada_kawai_layout(G)
 nx.draw(G,pos, with_labels=True,alpha=1, edge_color="r",arrows=True, arrowsize=21,node_color='w')
 st.pyplot(fig_ex)
