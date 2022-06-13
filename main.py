@@ -65,7 +65,7 @@ with st.echo(code_location='below'):
     df_1 = pd.read_csv(file_1)
     st.dataframe(df_1)
     st.caption('Чтобы увидеть значения для каждой даты, наведите курсор на выбранную точку')
-         hover = alt.selection_single(
+    hover = alt.selection_single(
          fields=["DATE"],
          nearest=True,
          on="mouseover",
