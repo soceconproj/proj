@@ -18,8 +18,6 @@ from sklearn.model_selection import cross_val_predict
 
 with st.echo(code_location='below'):
     """
-    ## Hello, World!
-    """
 st.title("Социально-экономические показатели стран")
 def print_hello(name="world"):
     st.write(f"## Привет, {name}!")
@@ -173,3 +171,4 @@ st.text('SFL - Supplementary finance law')
 st.text('DZD - Algerian dinar')
 st.text('ECB - European Central Bank')
 st.text('VAT - Value-added tax')
+  """
