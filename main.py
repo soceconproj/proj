@@ -53,119 +53,119 @@ with st.echo(code_location='below'):
         text=gini_df['Country Name'],
         colorbar={'title': 'Gini'})
      ###END FROM
-     gini_line = dict(
+    gini_line = dict(
         title='Gini',
         geo=dict(showframe=False))
-     gini_graph = go.Figure(data=[gini_dict], layout=gini_line)
-     st.plotly_chart(gini_graph)
-     st.subheader("Далее посмотрим на визуализацию некоторых показателей. Для корректного отображения некоторых графиков вам будет необходимо скачать и потом загрузить указанные данные ")
-     st.caption('Во-первых, скачайте пожалуйста информацию о годовом ВВП США по следующей ссылке:')
-     st.markdown("https://fred.stlouisfed.org/series/GDPA#0")
-     file_1 = st.file_uploader("Загрузите первый CSV-файл")
-     df_1 = pd.read_csv(file_1)
-     st.dataframe(df_1)
-     st.caption('Чтобы увидеть значения для каждой даты, наведите курсор на выбранную точку')
+    gini_graph = go.Figure(data=[gini_dict], layout=gini_line)
+    st.plotly_chart(gini_graph)
+    st.subheader("Далее посмотрим на визуализацию некоторых показателей. Для корректного отображения некоторых графиков вам будет необходимо скачать и потом загрузить указанные данные ")
+    st.caption('Во-первых, скачайте пожалуйста информацию о годовом ВВП США по следующей ссылке:')
+    st.markdown("https://fred.stlouisfed.org/series/GDPA#0")
+    file_1 = st.file_uploader("Загрузите первый CSV-файл")
+    df_1 = pd.read_csv(file_1)
+    st.dataframe(df_1)
+    st.caption('Чтобы увидеть значения для каждой даты, наведите курсор на выбранную точку')
          hover = alt.selection_single(
          fields=["DATE"],
          nearest=True,
          on="mouseover",
          empty="none",)
-      graph_gdp = (alt.Chart(df_1, title="US annual GDP").mark_line().encode(x="DATE",y="GDPA"))
-      ###FROM https://docs.streamlit.io/library/api-reference/charts/st.altair_chart:
-      points = graph_gdp.transform_filter(hover).mark_circle(size=65)
-      tooltips = (alt.Chart(df_1).mark_rule().encode(x="DATE",y="GDPA", opacity=alt.condition(hover, alt.value(0.3), alt.value(0)),
+     graph_gdp = (alt.Chart(df_1, title="US annual GDP").mark_line().encode(x="DATE",y="GDPA"))
+     ###FROM https://docs.streamlit.io/library/api-reference/charts/st.altair_chart:
+     points = graph_gdp.transform_filter(hover).mark_circle(size=65)
+     tooltips = (alt.Chart(df_1).mark_rule().encode(x="DATE",y="GDPA", opacity=alt.condition(hover, alt.value(0.3), alt.value(0)),
          tooltip=[alt.Tooltip("DATE"), alt.Tooltip("GDPA", title="Annual GDP")],).add_selection(hover))
-      chart = (graph_gdp + points + tooltips).interactive()
-      ###END FROM
-      st.altair_chart(chart,use_container_width=True)
-      file_2 = st.file_uploader("Загрузите CSV-файл")
-      df_2 = pd.read_csv(file_2)
-      st.dataframe(df_2)
-      st.caption('Аналогично, чтобы увидеть значения для каждой даты, наведите курсор на выбранную точку')
-      hover_1 = alt.selection_single(
+     chart = (graph_gdp + points + tooltips).interactive()
+     ###END FROM
+     st.altair_chart(chart,use_container_width=True)
+     file_2 = st.file_uploader("Загрузите CSV-файл")
+     df_2 = pd.read_csv(file_2)
+     st.dataframe(df_2)
+     st.caption('Аналогично, чтобы увидеть значения для каждой даты, наведите курсор на выбранную точку')
+     hover_1 = alt.selection_single(
           fields=["DATE"],
           nearest=True,
           on="mouseover",
           empty="none")
-      graph_un = (alt.Chart(df_2, title="US unemployment rate").mark_line().encode(x="DATE",y="UNRATE"))
-      ###FROM https://docs.streamlit.io/library/api-reference/charts/st.altair_chart:
-      points_1 = graph_un.transform_filter(hover_1).mark_circle(size=65)
-      tooltips_1 = (alt.Chart(df_2).mark_rule().encode(x="DATE",y="UNRATE", opacity=alt.condition(hover_1, alt.value(0.3), alt.value(0)),
-      tooltip=[alt.Tooltip("DATE"), alt.Tooltip("UNRATE", title="Unemployment rate")],).add_selection(hover_1))
-      chart_u = (graph_un + points_1 + tooltips_1).interactive()
-      ###END FROM
-      st.altair_chart(chart_u,use_container_width=True)
-      st.subheader("Сегодня, помимо ВВП на душу населения, все чаще используется понятие индекса человеческого счастья, чтобы сравнить благосостояние людей между странами. По представленным ниже данным построим регрессию для индекса человеческого счастья в 2019 году")
-      st.caption('Чтобы отсортировать значения показателя по убыванию или возрастанию, нажмите на название столбца')
-      happy_df= pd.read_csv("https://raw.githubusercontent.com/choudharynisha/predicting-world-happiness/main/data/2019.csv")
-      del happy_df['Overall rank']
-      st.dataframe(happy_df)
-      st.subheader("Выведем значения коэффициентов корреляции:")
-      corr_df =happy_df.corr()
-      st.dataframe(corr_df)
-      gr_1 = alt.Chart(happy_df).mark_circle().encode(
+     graph_un = (alt.Chart(df_2, title="US unemployment rate").mark_line().encode(x="DATE",y="UNRATE"))
+     ##FROM https://docs.streamlit.io/library/api-reference/charts/st.altair_chart:
+     points_1 = graph_un.transform_filter(hover_1).mark_circle(size=65)
+     tooltips_1 = (alt.Chart(df_2).mark_rule().encode(x="DATE",y="UNRATE", opacity=alt.condition(hover_1, alt.value(0.3), alt.value(0)),
+     tooltip=[alt.Tooltip("DATE"), alt.Tooltip("UNRATE", title="Unemployment rate")],).add_selection(hover_1))
+     chart_u = (graph_un + points_1 + tooltips_1).interactive()
+     ###END FROM
+     st.altair_chart(chart_u,use_container_width=True)
+     st.subheader("Сегодня, помимо ВВП на душу населения, все чаще используется понятие индекса человеческого счастья, чтобы сравнить благосостояние людей между странами. По представленным ниже данным построим регрессию для индекса человеческого счастья в 2019 году")
+     st.caption('Чтобы отсортировать значения показателя по убыванию или возрастанию, нажмите на название столбца')
+     happy_df= pd.read_csv("https://raw.githubusercontent.com/choudharynisha/predicting-world-happiness/main/data/2019.csv")
+     del happy_df['Overall rank']
+     st.dataframe(happy_df)
+     st.subheader("Выведем значения коэффициентов корреляции:")
+     corr_df =happy_df.corr()
+     st.dataframe(corr_df)
+     gr_1 = alt.Chart(happy_df).mark_circle().encode(
           x='GDP per capita', y='Score', color='Country or region', tooltip=['Country or region', 'GDP per capita', 'Score'])
-      st.altair_chart(gr_1, use_container_width=True)
-      gr_2 = alt.Chart(happy_df).mark_circle().encode(
+     st.altair_chart(gr_1, use_container_width=True)
+     gr_2 = alt.Chart(happy_df).mark_circle().encode(
           x='Social support', y='Score', color='Country or region', tooltip=['Country or region', 'Social support', 'Score'])
-      st.altair_chart(gr_2, use_container_width=True)
-      gr_3 = alt.Chart(happy_df).mark_circle().encode(
+     st.altair_chart(gr_2, use_container_width=True)
+     gr_3 = alt.Chart(happy_df).mark_circle().encode(
           x='Perceptions of corruption', y='Score', color='Country or region', tooltip=['Country or region', 'Perceptions of corruption', 'Score'])
-      st.altair_chart(gr_3, use_container_width=True)
-      st.subheader("Давайте построим линейную регрессию на основе этих данных. Найдем коэффициенты модели:")
-      new_df = happy_df.drop(['Score','Country or region'],axis=1)
-      model = LinearRegression()
-      model.fit(new_df, happy_df["Score"])
-      coefficients= model.coef_
-      st.text(coefficients)
-      pred_scores = cross_val_predict(model, new_df, happy_df["Score"], cv=10)
+     st.altair_chart(gr_3, use_container_width=True)
+     st.subheader("Давайте построим линейную регрессию на основе этих данных. Найдем коэффициенты модели:")
+     new_df = happy_df.drop(['Score','Country or region'],axis=1)
+     model = LinearRegression()
+     model.fit(new_df, happy_df["Score"])
+     coefficients= model.coef_
+     st.text(coefficients)
+     pred_scores = cross_val_predict(model, new_df, happy_df["Score"], cv=10)
           fig, ax = plt.subplots()
-      ###FROM https://scikit-learn.org/stable/auto_examples/ensemble/plot_stack_predictors.html#sphx-glr-auto-examples-ensemble-plot-stack-predictors-py:
-      ax.scatter(happy_df["Score"], pred_scores, edgecolors=(0, 0, 0))
-      ax.plot([happy_df["Score"].min(), happy_df["Score"].max()], [happy_df["Score"].min(), happy_df["Score"].max()], "k--", lw=4)
-      ###END FROM
-      ax.set_xlabel("Measured scores")
-      ax.set_ylabel("Predicted scores")
-      st.pyplot(fig)
-      st.subheader("Немного работы с графами:")
-      st.caption('Например, графы могут использоваться для визуализации торговых связей между странами. Давайте рассмотрим это на примере нескольких стран')
-      st.caption('Данные были взяты со страницы ниже:')
-      st.markdown("https://oec.world/")
-      exp_df= pd.DataFrame({'Ex_country': ['United Kingdom', 'United Kingdom', 'United Kingdom','Switzerland','Switzerland','Switzerland','Switzerland','Switzerland','Germany','Germany','Germany','Germany','China','China','China','Japan','Japan','United States','United States','United States','France','France','France','Italy','Italy','Italy','Italy','Italy'], 'Imp_country': ['United States', 'Germany', 'France','United States','Germany','China','United Kingdom','France','United States','China','France','United Kingdom','United States','Japan','Germany','China','United States','China','Japan','Germany','Germany','United States','Italy','Germany','France','United States','Switzerland','United Kingdom'], 'Export(billion dollars)': [51.7,39.9,22.4,62,49.2,17.3,14.5,16.3,116,106,101,74.4,438,151,112,133,112,122,63.1,59.2,65.2,36.7,36,62.1,49.5,47.9,25.1,25]})
-      pd.pivot_table(exp_df,index=["Ex_country", "Imp_country"])
-      exp_df
-      G = nx.MultiDiGraph()
-      G.add_node("Italy")
-      G.add_node("Germany")
-      G.add_node("France")
-      G.add_node("United States")
-      G.add_node("United Kingdom")
-      G.add_node("Switzerland")
-      G.add_node("China")
-      G.add_node("Japan")
-      G.add_edges_from([("China", "United States"),("China", "Japan"),("China", "Germany"),("United States", "China"),("United States", "Japan"),
+     ###FROM https://scikit-learn.org/stable/auto_examples/ensemble/plot_stack_predictors.html#sphx-glr-auto-examples-ensemble-plot-stack-predictors-py:
+     ax.scatter(happy_df["Score"], pred_scores, edgecolors=(0, 0, 0))
+     ax.plot([happy_df["Score"].min(), happy_df["Score"].max()], [happy_df["Score"].min(), happy_df["Score"].max()], "k--", lw=4)
+     ###END FROM
+     ax.set_xlabel("Measured scores")
+     ax.set_ylabel("Predicted scores")
+     st.pyplot(fig)
+     st.subheader("Немного работы с графами:")
+     st.caption('Например, графы могут использоваться для визуализации торговых связей между странами. Давайте рассмотрим это на примере нескольких стран')
+     st.caption('Данные были взяты со страницы ниже:')
+     st.markdown("https://oec.world/")
+     exp_df= pd.DataFrame({'Ex_country': ['United Kingdom', 'United Kingdom', 'United Kingdom','Switzerland','Switzerland','Switzerland','Switzerland','Switzerland','Germany','Germany','Germany','Germany','China','China','China','Japan','Japan','United States','United States','United States','France','France','France','Italy','Italy','Italy','Italy','Italy'], 'Imp_country': ['United States', 'Germany', 'France','United States','Germany','China','United Kingdom','France','United States','China','France','United Kingdom','United States','Japan','Germany','China','United States','China','Japan','Germany','Germany','United States','Italy','Germany','France','United States','Switzerland','United Kingdom'], 'Export(billion dollars)': [51.7,39.9,22.4,62,49.2,17.3,14.5,16.3,116,106,101,74.4,438,151,112,133,112,122,63.1,59.2,65.2,36.7,36,62.1,49.5,47.9,25.1,25]})
+     pd.pivot_table(exp_df,index=["Ex_country", "Imp_country"])
+     exp_df
+     G = nx.MultiDiGraph()
+     G.add_node("Italy")
+     G.add_node("Germany")
+     G.add_node("France")
+     G.add_node("United States")
+     G.add_node("United Kingdom")
+     G.add_node("Switzerland")
+     G.add_node("China")
+     G.add_node("Japan")
+     G.add_edges_from([("China", "United States"),("China", "Japan"),("China", "Germany"),("United States", "China"),("United States", "Japan"),
            ("United States", "Germany"),("Germany", "United States"),("Germany", "China"),("Germany", "France"),("Germany", "United Kingdom"),
            ("France", "Germany"),("France", "United States"),("France", "Italy"),("Italy", "Germany"),("Italy", "France"),("Italy", "United States"),
            ("Italy", "Switzerland"),("Italy", "United Kingdom"),("United Kingdom", "Germany"),("United Kingdom", "France"),("United Kingdom", "United States"),
            ("Japan", "United States"),("Japan", "China"),("Switzerland", "United States"),("Switzerland", "China"),("Switzerland", "France"),("Switzerland", "Germany"),("Switzerland", "United Kingdom")])
-      fig_ex, ax = plt.subplots()
-      pos = nx.kamada_kawai_layout(G)
-      nx.draw(G,pos, with_labels=True,alpha=1, edge_color="r",arrows=True, arrowsize=21,node_color='w')
-      st.pyplot(fig_ex)
-      st.subheader("Регулярные выражения:")
-      st.caption('Например, можно использовать этот метод, когда в статье или тексте используется много незнакомых вам аббревиатур. С помощью регулярных выражений вы сможете собрать список этих аббревиатур')
-      st.caption('Для примера рассмотрим фрагмент этой статьи:')
-      st.markdown("https://www.imf.org/en/Topics/imf-and-covid19/Policy-Responses-to-COVID-19")
-      text = 'Vaccination of another 28 percent of population is expected to be funded by World Bank and ADB grants. The authorities rolled out 0.8 percent of GDP social assistance under the World Bank-funded REACH program in 2020. The Bank of Albania announced it had set up a €400 million repo line with the ECB. Imports of pharmaceutical products used in the fight against Covid-19 were temporarily exonerated from VAT. In terms of spending measures, a SFL enacted on June 4, 2020 included provisions amounting to DZD 70 bn dinars to mitigate the health and economic impacts of the COVID-19 crisis. '
-      st.caption(text)
-      abbr_1 = re.findall(" [A-Z][A-Z][A-Z] ", text)
-      abbr_2 = re.findall(" [A-Z][A-Z][A-Z]\.", text)
-      abbr = abbr_1+abbr_2
-      st.caption('Получим следующий список аббревиатур:')
-      st.text(abbr)
-      st.text('ADB - Asina Development Bank')
-      st.text('GDP - Gross domestic product')
-      st.text('SFL - Supplementary finance law')
-      st.text('DZD - Algerian dinar')
-      st.text('ECB - European Central Bank')
-      st.text('VAT - Value-added tax')
+     fig_ex, ax = plt.subplots()
+     pos = nx.kamada_kawai_layout(G)
+     nx.draw(G,pos, with_labels=True,alpha=1, edge_color="r",arrows=True, arrowsize=21,node_color='w')
+     st.pyplot(fig_ex)
+     st.subheader("Регулярные выражения:")
+     st.caption('Например, можно использовать этот метод, когда в статье или тексте используется много незнакомых вам аббревиатур. С помощью регулярных выражений вы сможете собрать список этих аббревиатур')
+     st.caption('Для примера рассмотрим фрагмент этой статьи:')
+     st.markdown("https://www.imf.org/en/Topics/imf-and-covid19/Policy-Responses-to-COVID-19")
+     text = 'Vaccination of another 28 percent of population is expected to be funded by World Bank and ADB grants. The authorities rolled out 0.8 percent of GDP social assistance under the World Bank-funded REACH program in 2020. The Bank of Albania announced it had set up a €400 million repo line with the ECB. Imports of pharmaceutical products used in the fight against Covid-19 were temporarily exonerated from VAT. In terms of spending measures, a SFL enacted on June 4, 2020 included provisions amounting to DZD 70 bn dinars to mitigate the health and economic impacts of the COVID-19 crisis. '
+     st.caption(text)
+     abbr_1 = re.findall(" [A-Z][A-Z][A-Z] ", text)
+     abbr_2 = re.findall(" [A-Z][A-Z][A-Z]\.", text)
+     abbr = abbr_1+abbr_2
+     st.caption('Получим следующий список аббревиатур:')
+     st.text(abbr)
+     st.text('ADB - Asina Development Bank')
+     st.text('GDP - Gross domestic product')
+     st.text('SFL - Supplementary finance law')
+     st.text('DZD - Algerian dinar')
+     st.text('ECB - European Central Bank')
+     st.text('VAT - Value-added tax')
