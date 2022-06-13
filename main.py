@@ -119,7 +119,7 @@ with st.echo(code_location='below'):
     coefficients= model.coef_
     st.text(coefficients)
     pred_scores = cross_val_predict(model, new_df, happy_df["Score"], cv=10)
-          fig, ax = plt.subplots()
+    fig, ax = plt.subplots()
     ###FROM https://scikit-learn.org/stable/auto_examples/ensemble/plot_stack_predictors.html#sphx-glr-auto-examples-ensemble-plot-stack-predictors-py:
     ax.scatter(happy_df["Score"], pred_scores, edgecolors=(0, 0, 0))
     ax.plot([happy_df["Score"].min(), happy_df["Score"].max()], [happy_df["Score"].min(), happy_df["Score"].max()], "k--", lw=4)
