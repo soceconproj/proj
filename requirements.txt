@@ -2,3 +2,4 @@ seaborn
 altair
 plotly
 sklearn
+networkx
